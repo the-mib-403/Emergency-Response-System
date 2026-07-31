@@ -1,6 +1,8 @@
 #include <iostream>
+
 #include "../include/Patient.h"
 #include "../include/Ambulance.h"
+#include "../include/Hospital.h"
 
 int main()
 {
@@ -12,15 +14,32 @@ int main()
         "01712345678"
     );
 
-    Ambulance ambulance(
+    Ambulance ambulance1(
         1,
-        101,
+        1,
         2,
         true
     );
 
+    Ambulance ambulance2(
+        2,
+        1,
+        2,
+        true
+    );
+
+    Hospital hospital(
+        1,
+        "Apollo Hospital",
+        2
+    );
+
+    hospital.addAmbulance(ambulance1);
+    hospital.addAmbulance(ambulance2);
+
     patient.displayInfo();
-    ambulance.displayInfo();
+    ambulance1.displayInfo();
+    hospital.displayInfo();
 
     return 0;
 }
