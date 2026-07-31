@@ -1,45 +1,18 @@
 #include <iostream>
 
-#include "../include/Patient.h"
-#include "../include/Ambulance.h"
-#include "../include/Hospital.h"
+#include "../include/Graph.h"
 
 int main()
 {
-    Patient patient(
-        101,
-        "John Doe",
-        2,
-        5,
-        "01712345678"
-    );
+    Graph city(5);
 
-    Ambulance ambulance1(
-        1,
-        1,
-        2,
-        true
-    );
+    city.addEdge(0, 1, 5);
+    city.addEdge(0, 2, 8);
+    city.addEdge(1, 3, 4);
+    city.addEdge(2, 4, 7);
+    city.addEdge(3, 4, 3);
 
-    Ambulance ambulance2(
-        2,
-        1,
-        2,
-        true
-    );
-
-    Hospital hospital(
-        1,
-        "Apollo Hospital",
-        2
-    );
-
-    hospital.addAmbulance(ambulance1);
-    hospital.addAmbulance(ambulance2);
-
-    patient.displayInfo();
-    ambulance1.displayInfo();
-    hospital.displayInfo();
+    city.displayGraph();
 
     return 0;
 }
