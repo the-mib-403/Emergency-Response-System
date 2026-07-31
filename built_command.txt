@@ -1,0 +1,5 @@
+compile 
+g++ -std=c++17 src/*.cpp -Iinclude -o EmergencyResponseSystem
+
+run
+./EmergencyResponseSystem.exe
