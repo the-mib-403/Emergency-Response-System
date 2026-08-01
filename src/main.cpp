@@ -1,26 +1,33 @@
 #include <iostream>
+#include <vector>
 
-#include "../include/Patient.h"
-#include "../include/Emergency.h"
+#include "../include/FileManager.h"
 
 int main()
 {
-    Patient patient(
-        101,
-        "John Doe",
-        2,
-        5,
-        "01712345678"
+    std::vector<Hospital> hospitals;
+
+    hospitals.push_back(
+        Hospital(
+            1,
+            "Apollo",
+            2
+        )
     );
 
-    Emergency emergency(
-        1,
-        patient,
-        5,
-        "Pending"
+    hospitals.push_back(
+        Hospital(
+            2,
+            "Square",
+            5
+        )
     );
 
-    emergency.displayInfo();
+    FileManager fileManager;
+
+    fileManager.saveHospitals(hospitals);
+
+    std::cout << "Hospitals saved successfully.\n";
 
     return 0;
 }
