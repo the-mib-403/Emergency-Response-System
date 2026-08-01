@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <limits>
 
 class Graph
 {
@@ -11,6 +12,7 @@ private:
     std::vector<std::vector<std::pair<int, int>>> adjacencyList;
 
 public:
+    std::vector<int> dijkstra(int source) const;
     // Constructors
     Graph();
 
