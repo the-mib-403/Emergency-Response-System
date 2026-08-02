@@ -3,7 +3,10 @@
 #include <fstream>
 #include <iostream>
 
+// ==========================
 // Save Hospitals
+// ==========================
+
 void FileManager::saveHospitals(const std::vector<Hospital>& hospitals) const
 {
     std::ofstream outFile("data/hospitals.txt");
@@ -25,7 +28,10 @@ void FileManager::saveHospitals(const std::vector<Hospital>& hospitals) const
     outFile.close();
 }
 
+// ==========================
 // Load Hospitals
+// ==========================
+
 void FileManager::loadHospitals(std::vector<Hospital>& hospitals) const
 {
     std::ifstream inFile("data/hospitals.txt");
@@ -35,21 +41,99 @@ void FileManager::loadHospitals(std::vector<Hospital>& hospitals) const
         return;
     }
 
-    int id;
-    int location;
+    hospitals.clear();
+
+    int hospitalId;
+    int locationNode;
     std::string name;
 
-    while (inFile >> id >> name >> location)
+    while (inFile >> hospitalId >> name >> locationNode)
     {
         hospitals.push_back(
-            Hospital(id, name, location)
+            Hospital(
+                hospitalId,
+                name,
+                locationNode
+            )
         );
     }
 
     inFile.close();
 }
 
+// ==========================
+// Save Ambulances
+// ==========================
+
+void FileManager::saveAmbulances(
+    const std::vector<Ambulance>& ambulances
+) const
+{
+    std::ofstream outFile("data/ambulances.txt");
+
+    if (!outFile)
+    {
+        std::cout << "Error opening ambulances.txt\n";
+        return;
+    }
+
+    for (const auto& ambulance : ambulances)
+    {
+        outFile
+            << ambulance.getAmbulanceId() << ' '
+            << ambulance.getHospitalId() << ' '
+            << ambulance.getCurrentNode() << ' '
+            << ambulance.isAvailable() << '\n';
+    }
+
+    outFile.close();
+}
+
+// ==========================
+// Load Ambulances
+// ==========================
+
+void FileManager::loadAmbulances(
+    std::vector<Ambulance>& ambulances
+) const
+{
+    std::ifstream inFile("data/ambulances.txt");
+
+    if (!inFile)
+    {
+        return;
+    }
+
+    ambulances.clear();
+
+    int ambulanceId;
+    int hospitalId;
+    int currentNode;
+    bool available;
+
+    while (inFile
+           >> ambulanceId
+           >> hospitalId
+           >> currentNode
+           >> available)
+    {
+        ambulances.push_back(
+            Ambulance(
+                ambulanceId,
+                hospitalId,
+                currentNode,
+                available
+            )
+        );
+    }
+
+    inFile.close();
+}
+
+// ==========================
 // Save Emergencies
+// ==========================
+
 void FileManager::saveEmergencies(
     const std::vector<Emergency>& emergencies
 ) const
@@ -74,10 +158,15 @@ void FileManager::saveEmergencies(
     outFile.close();
 }
 
+// ==========================
 // Load Emergencies
+// ==========================
+
 void FileManager::loadEmergencies(
     std::vector<Emergency>& emergencies
 ) const
 {
-    // Will be implemented in v1.1
+    emergencies.clear();
+
+    // Will be implemented in Version 1.1
 }

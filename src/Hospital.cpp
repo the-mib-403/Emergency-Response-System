@@ -1,4 +1,5 @@
 #include "../include/Hospital.h"
+
 #include <iostream>
 
 // Default Constructor
@@ -37,11 +38,6 @@ int Hospital::getLocationNode() const
     return locationNode;
 }
 
-const std::vector<Ambulance>& Hospital::getAmbulances() const
-{
-    return ambulances;
-}
-
 // Setters
 void Hospital::setHospitalId(int hospitalId)
 {
@@ -58,12 +54,6 @@ void Hospital::setLocationNode(int locationNode)
     this->locationNode = locationNode;
 }
 
-// Ambulance Management
-void Hospital::addAmbulance(const Ambulance& ambulance)
-{
-    ambulances.push_back(ambulance);
-}
-
 // Display
 void Hospital::displayInfo() const
 {
@@ -71,5 +61,4 @@ void Hospital::displayInfo() const
     std::cout << "Hospital ID   : " << hospitalId << '\n';
     std::cout << "Name          : " << name << '\n';
     std::cout << "Location Node : " << locationNode << '\n';
-    std::cout << "Ambulances    : " << ambulances.size() << '\n';
 }
