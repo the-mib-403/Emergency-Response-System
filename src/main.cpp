@@ -6,8 +6,7 @@ int main()
 
     system.initialize();
 
-    system.showHospitals();
-    system.showAmbulances();
+    system.registerEmergency();
 
     return 0;
 }

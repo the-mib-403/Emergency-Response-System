@@ -42,8 +42,6 @@ void EmergencySystem::loadData()
 
 void EmergencySystem::showHospitals() const
 {
-    std::cout << "Hospital Count = " << hospitals.size() << '\n';
-
     if (hospitals.empty())
     {
         std::cout << "\nNo hospitals available.\n";
@@ -72,4 +70,49 @@ void EmergencySystem::showAmbulances() const
     {
         ambulance.displayInfo();
     }
+}
+
+void EmergencySystem::registerEmergency()
+{
+    int patientId = emergencies.size() + 1;
+    int emergencyId = emergencies.size() + 1;
+
+    std::string name;
+    std::string phone;
+    int location;
+    int severity;
+
+    std::cout << "\n========== Register Emergency ==========\n";
+
+    std::cout << "Patient Name : ";
+    std::getline(std::cin >> std::ws, name);
+
+    std::cout << "Phone Number : ";
+    std::getline(std::cin, phone);
+
+    std::cout << "Location Node : ";
+    std::cin >> location;
+
+    std::cout << "Severity (1-5) : ";
+    std::cin >> severity;
+
+    Patient patient(
+        patientId,
+        name,
+        location,
+        severity,
+        phone
+    );
+
+    Emergency emergency(
+        emergencyId,
+        patient,
+        severity,
+        "Pending"
+    );
+
+    emergencies.push_back(emergency);
+
+    std::cout << "\nEmergency Registered Successfully!\n";
+    std::cout << "Emergency ID : " << emergencyId << '\n';
 }
