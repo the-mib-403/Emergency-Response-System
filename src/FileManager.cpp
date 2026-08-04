@@ -148,9 +148,15 @@ void FileManager::saveEmergencies(
 
     for (const auto& emergency : emergencies)
     {
+        const Patient& patient = emergency.getPatient();
+
         outFile
             << emergency.getEmergencyId() << ' '
-            << emergency.getPatient().getPatientId() << ' '
+            << patient.getPatientId() << ' '
+            << patient.getName() << ' '
+            << patient.getLocation() << ' '
+            << patient.getSeverity() << ' '
+            << patient.getPhone() << ' '
             << emergency.getPriority() << ' '
             << emergency.getStatus() << '\n';
     }
@@ -166,7 +172,51 @@ void FileManager::loadEmergencies(
     std::vector<Emergency>& emergencies
 ) const
 {
+    std::ifstream inFile("data/emergencies.txt");
+
+    if (!inFile)
+    {
+        return;
+    }
+
     emergencies.clear();
 
-    // Will be implemented in Version 1.1
+    int emergencyId;
+    int patientId;
+    std::string name;
+    int location;
+    int severity;
+    std::string phone;
+    int priority;
+    std::string status;
+
+    while (inFile
+           >> emergencyId
+           >> patientId
+           >> name
+           >> location
+           >> severity
+           >> phone
+           >> priority
+           >> status)
+    {
+        Patient patient(
+            patientId,
+            name,
+            location,
+            severity,
+            phone
+        );
+
+        Emergency emergency(
+            emergencyId,
+            patient,
+            priority,
+            status
+        );
+
+        emergencies.push_back(emergency);
+    }
+
+    inFile.close();
 }

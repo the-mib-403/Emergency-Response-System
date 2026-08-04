@@ -7,11 +7,9 @@ EmergencySystem::EmergencySystem()
 {
 }
 
-// Initialize System
 void EmergencySystem::initialize()
 {
-    fileManager.loadHospitals(hospitals);
-    fileManager.loadAmbulances(ambulances);
+    loadData();
 
     cityGraph = Graph(6);
 
@@ -24,7 +22,6 @@ void EmergencySystem::initialize()
     cityGraph.addEdge(4, 5, 2);
 }
 
-// Save Data
 void EmergencySystem::saveData()
 {
     fileManager.saveHospitals(hospitals);
@@ -32,7 +29,6 @@ void EmergencySystem::saveData()
     fileManager.saveEmergencies(emergencies);
 }
 
-// Load Data
 void EmergencySystem::loadData()
 {
     fileManager.loadHospitals(hospitals);
@@ -90,29 +86,68 @@ void EmergencySystem::registerEmergency()
     std::cout << "Phone Number : ";
     std::getline(std::cin, phone);
 
-    std::cout << "Location Node : ";
-    std::cin >> location;
+    std::cout << "\n========== Available Locations ==========\n";
+    std::cout << "0. Mirpur\n";
+    std::cout << "1. Dhanmondi\n";
+    std::cout << "2. Uttara (Apollo Hospital)\n";
+    std::cout << "3. Gulshan\n";
+    std::cout << "4. Banani\n";
+    std::cout << "5. Motijheel (Square Hospital)\n";
 
-    std::cout << "Severity (1-5) : ";
+    std::cout << "\nEnter Location : ";
+    std::cin >> location;
+    while (location < 0 || location > 5)
+    {
+        std::cout << "Invalid location! Enter again: ";
+        std::cin >> location;
+    }
+
+    std::cout << "\n========== Severity Levels ==========\n";
+    std::cout << "1. Low\n";
+    std::cout << "2. Moderate\n";
+    std::cout << "3. Serious\n";
+    std::cout << "4. Critical\n";
+    std::cout << "5. Life Threatening\n";
+
+    std::cout << "\nEnter Severity : ";
     std::cin >> severity;
+    while (severity < 1 || severity > 5)
+    {
+        std::cout << "Invalid severity! Enter again: ";
+        std::cin >> severity;
+    }
 
     Patient patient(
         patientId,
         name,
         location,
         severity,
-        phone
-    );
+        phone);
 
     Emergency emergency(
         emergencyId,
         patient,
         severity,
-        "Pending"
-    );
+        "Pending");
 
     emergencies.push_back(emergency);
-
+    saveData();
     std::cout << "\nEmergency Registered Successfully!\n";
     std::cout << "Emergency ID : " << emergencyId << '\n';
+}
+
+void EmergencySystem::showEmergencies() const
+{
+    if (emergencies.empty())
+    {
+        std::cout << "\nNo emergency requests found.\n";
+        return;
+    }
+
+    std::cout << "\n========== Emergency List ==========\n";
+
+    for (const auto &emergency : emergencies)
+    {
+        emergency.displayInfo();
+    }
 }
