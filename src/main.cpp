@@ -6,7 +6,7 @@ int main()
 
     system.initialize();
 
-    system.registerEmergency();
+    system.run();
 
     return 0;
 }

@@ -19,6 +19,8 @@ private:
     std::vector<Emergency> emergencies;
 
     FileManager fileManager;
+    Hospital *findNearestHospital(int patientLocation);
+    Ambulance *findAvailableAmbulance(int hospitalId);
 
 public:
     // Constructor
