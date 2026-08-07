@@ -1,0 +1,39 @@
+=========================================
+Emergency ID : 6
+Patient      : Abul
+Phone        : 01325874125
+Location     : 3
+Severity     : 4
+
+Hospital     : Apollo
+Ambulance ID : 1
+
+Status       : Assigned
+=========================================
+
+=========================================
+Emergency ID : 1
+Patient      : Biplob
+Phone        : 01576709411
+Location     : 3
+Severity     : 5
+
+Hospital     : Square
+Ambulance ID : 4
+
+Status       : Assigned
+=========================================
+
+=========================================
+Emergency ID : 2
+Patient      : Moon
+Phone        : 01325896314
+Location     : 4
+Severity     : 4
+
+Hospital     : Square
+Ambulance ID : 4
+
+Status       : Assigned
+=========================================
+

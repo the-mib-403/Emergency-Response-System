@@ -1,6 +1,7 @@
-1 1 2 0
-2 1 2 0
-3 1 2 1
-4 2 5 0
-5 2 5 1
-6 2 5 1
+# AmbulanceID HospitalID CurrentNode Available AssignedEmergencyID
+1 1 2 1 0
+2 1 2 1 0
+3 1 2 1 0
+4 2 5 0 2
+5 2 5 1 0
+6 2 5 1 0

@@ -22,6 +22,13 @@ private:
     Hospital *findNearestHospital(int patientLocation);
     Ambulance *findAvailableAmbulance(int hospitalId);
 
+    std::string getLocationName(int node) const;
+    // Menu Functions
+    void emergencyMenu();
+    void hospitalMenu();
+    void ambulanceMenu();
+    void reportsMenu();
+
 public:
     // Constructor
     EmergencySystem();
@@ -46,6 +53,7 @@ public:
 
     // Ambulance Dispatch
     void dispatchAmbulance();
+    void returnAmbulance();
 
     // Main Menu
     void run();

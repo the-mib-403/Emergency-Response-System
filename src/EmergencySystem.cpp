@@ -55,6 +55,7 @@ void EmergencySystem::showHospitals() const
 
 void EmergencySystem::showAmbulances() const
 {
+
     if (ambulances.empty())
     {
         std::cout << "\nNo ambulances available.\n";
@@ -242,8 +243,8 @@ void EmergencySystem::dispatchAmbulance()
         return;
     }
 
-    std::cout << "\nNearest Hospital Found\n";
-    hospital->displayInfo();
+    // std::cout << "\nNearest Hospital Found\n";
+    // hospital->displayInfo();
 
     Ambulance *ambulance =
         findAvailableAmbulance(
@@ -255,14 +256,22 @@ void EmergencySystem::dispatchAmbulance()
         return;
     }
 
-    std::cout << "\nAvailable Ambulance Found\n";
-    ambulance->displayInfo();
+    // std::cout << "\nAvailable Ambulance Found\n";
+    // ambulance->displayInfo();
 
     ambulance->setAvailable(false);
+
+    ambulance->setAssignedEmergencyId(
+        selectedEmergency->getEmergencyId());
 
     selectedEmergency->setStatus("Assigned");
 
     saveData();
+
+    fileManager.saveHistory(
+        *selectedEmergency,
+        *hospital,
+        *ambulance);
 
     std::cout << "\n========== Dispatch Summary ==========\n";
 
@@ -273,7 +282,9 @@ void EmergencySystem::dispatchAmbulance()
               << selectedEmergency->getPatient().getName() << '\n';
 
     std::cout << "Patient Location : "
-              << selectedEmergency->getPatient().getLocation() << '\n';
+              << getLocationName(
+                     selectedEmergency->getPatient().getLocation())
+              << '\n';
 
     std::cout << "Hospital         : "
               << hospital->getName() << '\n';
@@ -296,15 +307,95 @@ void EmergencySystem::run()
     do
     {
         std::cout << "\n=====================================\n";
-        std::cout << "     EMERGENCY RESPONSE SYSTEM\n";
+        std::cout << "      EMERGENCY RESPONSE SYSTEM\n";
+        std::cout << "=====================================\n";
+
+        std::cout << "1. Emergency Management\n";
+        std::cout << "2. Hospital Management\n";
+        std::cout << "3. Ambulance Management\n";
+        std::cout << "4. Reports\n";
+        std::cout << "5. Exit\n";
+
+        std::cout << "\nEnter Choice : ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            emergencyMenu();
+            break;
+
+        case 2:
+            hospitalMenu();
+            break;
+
+        case 3:
+            ambulanceMenu();
+            break;
+
+        case 4:
+            reportsMenu();
+            break;
+
+        case 5:
+            saveData();
+            std::cout << "\nSaving data...\n";
+            std::cout << "Thank you for using the system.\n";
+            break;
+
+        default:
+            std::cout << "\nInvalid choice! Please try again.\n";
+
+            std::cout << "\nPress Enter to continue...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.get();
+        }
+
+    } while (choice != 5);
+}
+
+std::string EmergencySystem::getLocationName(int node) const
+{
+    switch (node)
+    {
+    case 0:
+        return "Mirpur";
+
+    case 1:
+        return "Dhanmondi";
+
+    case 2:
+        return "Uttara";
+
+    case 3:
+        return "Gulshan";
+
+    case 4:
+        return "Banani";
+
+    case 5:
+        return "Motijheel";
+
+    default:
+        return "Unknown";
+    }
+}
+
+void EmergencySystem::emergencyMenu()
+{
+    int choice;
+
+    do
+    {
+        std::cout << "\n=====================================\n";
+        std::cout << "      EMERGENCY MANAGEMENT\n";
         std::cout << "=====================================\n";
 
         std::cout << "1. Register Emergency\n";
         std::cout << "2. Show Emergencies\n";
-        std::cout << "3. Show Hospitals\n";
-        std::cout << "4. Show Ambulances\n";
-        std::cout << "5. Dispatch Ambulance\n";
-        std::cout << "6. Exit\n";
+        std::cout << "3. Dispatch Ambulance\n";
+        std::cout << "4. Return Ambulance\n";
+        std::cout << "5. Back\n";
 
         std::cout << "\nEnter Choice : ";
         std::cin >> choice;
@@ -320,33 +411,182 @@ void EmergencySystem::run()
             break;
 
         case 3:
-            showHospitals();
-            break;
-
-        case 4:
-            showAmbulances();
-            break;
-
-        case 5:
             dispatchAmbulance();
             break;
 
-        case 6:
-            saveData();
-            std::cout << "\nSaving data...\n";
-            std::cout << "Thank you for using the system.\n";
+        case 4:
+            returnAmbulance();
+            break;
+
+        case 5:
             break;
 
         default:
             std::cout << "\nInvalid choice! Please try again.\n";
         }
 
-        if (choice != 6)
+        if (choice != 5)
         {
             std::cout << "\nPress Enter to continue...";
-            std::cin.ignore();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cin.get();
         }
 
-    } while (choice != 6);
+    } while (choice != 5);
+}
+
+void EmergencySystem::hospitalMenu()
+{
+    int choice;
+
+    do
+    {
+        std::cout << "\n=====================================\n";
+        std::cout << "       HOSPITAL MANAGEMENT\n";
+        std::cout << "=====================================\n";
+
+        std::cout << "1. Show Hospitals\n";
+        std::cout << "2. Back\n";
+
+        std::cout << "\nEnter Choice : ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            showHospitals();
+            break;
+
+        case 2:
+            break;
+
+        default:
+            std::cout << "\nInvalid choice! Please try again.\n";
+        }
+
+        if (choice != 2)
+        {
+            std::cout << "\nPress Enter to continue...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.get();
+        }
+
+    } while (choice != 2);
+}
+
+void EmergencySystem::ambulanceMenu()
+{
+    int choice;
+
+    do
+    {
+        std::cout << "\n=====================================\n";
+        std::cout << "      AMBULANCE MANAGEMENT\n";
+        std::cout << "=====================================\n";
+
+        std::cout << "1. Show Ambulances\n";
+        std::cout << "2. Back\n";
+
+        std::cout << "\nEnter Choice : ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            showAmbulances();
+            break;
+
+        case 2:
+            break;
+
+        default:
+            std::cout << "\nInvalid choice! Please try again.\n";
+        }
+
+        if (choice != 2)
+        {
+            std::cout << "\nPress Enter to continue...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.get();
+        }
+
+    } while (choice != 2);
+}
+
+void EmergencySystem::reportsMenu()
+{
+    int choice;
+
+    do
+    {
+        std::cout << "\n=====================================\n";
+        std::cout << "            REPORTS\n";
+        std::cout << "=====================================\n";
+
+        std::cout << "1. View Dispatch History\n";
+        std::cout << "2. Statistics\n";
+        std::cout << "3. Back\n";
+
+        std::cout << "\nEnter Choice : ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            std::cout << "\nDispatch History feature is under development.\n";
+            break;
+
+        case 2:
+            std::cout << "\nStatistics feature is under development.\n";
+            break;
+
+        case 3:
+            break;
+
+        default:
+            std::cout << "\nInvalid choice! Please try again.\n";
+        }
+
+        if (choice != 3)
+        {
+            std::cout << "\nPress Enter to continue...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.get();
+        }
+
+    } while (choice != 3);
+}
+
+void EmergencySystem::returnAmbulance()
+{
+    std::cout << "\n========== Return Ambulance ==========\n";
+
+    bool found = false;
+
+    std::cout << "\nBusy Ambulances\n";
+    std::cout << "--------------------------------------------------\n";
+
+    for (const auto &ambulance : ambulances)
+    {
+        if (!ambulance.isAvailable())
+        {
+            std::cout << "Ambulance ID : "
+                      << ambulance.getAmbulanceId();
+
+            std::cout << " | Hospital ID : "
+                      << ambulance.getHospitalId();
+
+            std::cout << " | Emergency ID : "
+                      << ambulance.getAssignedEmergencyId()
+                      << '\n';
+
+            found = true;
+        }
+    }
+
+    if (!found)
+    {
+        std::cout << "\nNo busy ambulances found.\n";
+        return;
+    }
 }

@@ -6,7 +6,8 @@ Ambulance::Ambulance()
     : ambulanceId(0),
       hospitalId(0),
       currentNode(0),
-      available(true)
+      available(true),
+      assignedEmergencyId(0)
 {
 }
 
@@ -15,12 +16,14 @@ Ambulance::Ambulance(
     int ambulanceId,
     int hospitalId,
     int currentNode,
-    bool available
+    bool available,
+    int assignedEmergencyId
 )
     : ambulanceId(ambulanceId),
       hospitalId(hospitalId),
       currentNode(currentNode),
-      available(available)
+      available(available),
+      assignedEmergencyId(assignedEmergencyId)
 {
 }
 
@@ -45,6 +48,11 @@ bool Ambulance::isAvailable() const
     return available;
 }
 
+int Ambulance::getAssignedEmergencyId() const
+{
+    return assignedEmergencyId;
+}
+
 // Setters
 void Ambulance::setAmbulanceId(int ambulanceId)
 {
@@ -66,13 +74,20 @@ void Ambulance::setAvailable(bool available)
     this->available = available;
 }
 
+void Ambulance::setAssignedEmergencyId(int assignedEmergencyId)
+{
+    this->assignedEmergencyId = assignedEmergencyId;
+}
+
 // Display
 void Ambulance::displayInfo() const
 {
     std::cout << "\n----- Ambulance Information -----\n";
-    std::cout << "Ambulance ID : " << ambulanceId << '\n';
-    std::cout << "Hospital ID  : " << hospitalId << '\n';
-    std::cout << "Current Node : " << currentNode << '\n';
-    std::cout << "Status       : "
+    std::cout << "Ambulance ID          : " << ambulanceId << '\n';
+    std::cout << "Hospital ID           : " << hospitalId << '\n';
+    std::cout << "Current Node          : " << currentNode << '\n';
+    std::cout << "Status                : "
               << (available ? "Available" : "Busy") << '\n';
+    std::cout << "Assigned Emergency ID : "
+              << assignedEmergencyId << '\n';
 }
